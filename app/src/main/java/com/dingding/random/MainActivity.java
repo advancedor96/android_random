@@ -1,13 +1,20 @@
 package com.dingding.random;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +24,8 @@ import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
     WebView myWebView;
+    public static String FACEBOOK_URL = "https://www.facebook.com/advancedor96";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +56,24 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.author) {
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+            String facebookUrl = "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            facebookIntent.setData(Uri.parse(facebookUrl));
+            startActivity(facebookIntent);
             return true;
+        } else if (id == R.id.idea){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("設計理念");
+            alert.setCancelable(false);
+            alert.setMessage("如果你沒辦法在腦子裡先把選項簡化到剩下2個，那你動的腦太少了。再動一下試試看。");
+            alert.setPositiveButton("關閉", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alert.show();
         }
 
         return super.onOptionsItemSelected(item);
